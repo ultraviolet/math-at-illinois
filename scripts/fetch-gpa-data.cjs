@@ -38,8 +38,20 @@ function calculateGPA(row) {
   return students > 0 ? (points / students).toFixed(2) : null;
 }
 
+function calcRate(row) {
+  const aPlus = parseInt(row['A+']) || 0;
+  const a = parseInt(row['A']) || 0;
+  const total = Object.keys(row).filter(k => 
+    ['A+','A','A-','B+','B','B-','C+','C','C-','D+','D','D-','F'].includes(k)
+  ).reduce((sum, grade) => sum + (parseInt(row[grade]) || 0), 0);
+  
+  return total > 0 ? ((aPlus + a) / total * 100).toFixed(1) : null;
+}
+
 async function process() {
   const courses = {};
+  const currentYear = new Date().getFullYear();
+  const threeYearsAgo = currentYear - 3;
   
   await new Promise(resolve => {
     fs.createReadStream('data/gpa-raw.csv')
@@ -57,9 +69,10 @@ async function process() {
         }
         
         courses[id].semesters.push({
-          year: row.Year,
+          year: parseInt(row.Year),
           term: row.Term,
           gpa: calculateGPA(row),
+          rate: calcRate(row),
           instructor: row['Primary Instructor'],
           students: row.Students
         });
@@ -67,10 +80,15 @@ async function process() {
       .on('end', resolve);
   });
   
-  // calc averages
+  // calc averages (last 3 years only) and 4.0 rate
   for (const course of Object.values(courses)) {
-    const gpas = course.semesters.map(s => parseFloat(s.gpa)).filter(g => !isNaN(g));
-    course.avgGPA = gpas.length ? (gpas.reduce((a, b) => a + b) / gpas.length).toFixed(3) : null;
+    const recentSemesters = course.semesters.filter(s => s.year >= threeYearsAgo);
+    
+    const gpas = recentSemesters.map(s => parseFloat(s.gpa)).filter(g => !isNaN(g));
+    course.avgGPA = gpas.length ? (gpas.reduce((a, b) => a + b) / gpas.length).toFixed(2) : null;
+    
+    const rates = recentSemesters.map(s => parseFloat(s.rate)).filter(r => !isNaN(r));
+    course.avgRate = rates.length ? (rates.reduce((a, b) => a + b) / rates.length).toFixed(1) : null;
   }
 
   // ok i think this is how quartz works?

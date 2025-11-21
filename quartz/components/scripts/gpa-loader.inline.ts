@@ -22,12 +22,12 @@ document.addEventListener("nav", async () => {
     gpaEl.innerHTML = `
       <div class="gpa-stats">
         <div class="gpa-stat">
-          <div class="gpa-stat-label">Average GPA</div>
+          <div class="gpa-stat-label">Average GPA (recent)</div>
           <div class="gpa-stat-value">${courseData.avgGPA}</div>
         </div>
         <div class="gpa-stat">
-          <div class="gpa-stat-label">Total Sections</div>
-          <div class="gpa-stat-value">${courseData.semesters.length}</div>
+          <div class="gpa-stat-label">4.0 Percentage</div>
+          <div class="gpa-stat-value">${courseData.avgRate}%</div>
         </div>
       </div>
       <details style="margin-top: 1rem;">
@@ -37,6 +37,7 @@ document.addEventListener("nav", async () => {
             <tr>
               <th>Term</th>
               <th>GPA</th>
+              <th>4.0 %</th>
               <th>Instructor</th>
             </tr>
           </thead>
@@ -45,6 +46,7 @@ document.addEventListener("nav", async () => {
               <tr>
                 <td>${s.term} ${s.year}</td>
                 <td>${s.gpa}</td>
+                <td>${s.rate}%</td>
                 <td>${s.instructor}</td>
               </tr>
             `).join('')}
