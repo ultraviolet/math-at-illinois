@@ -17,7 +17,9 @@
     "check": "tsc --noEmit && npx prettier . --check",
     "format": "npx prettier . --write",
     "test": "tsx --test",
-    "profile": "0x -D prof ./quartz/bootstrap-cli.mjs build --concurrency=1"
+    "profile": "0x -D prof ./quartz/bootstrap-cli.mjs build --concurrency=1",
+    "fetch-gpa": "node scripts/fetch-gpa-data.cjs",
+    "prebuild": "npm run fetch-gpa"
   },
   "engines": {
     "npm": ">=10.9.2",
@@ -44,6 +46,7 @@
     "async-mutex": "^0.5.0",
     "chokidar": "^4.0.3",
     "cli-spinner": "^0.2.10",
+    "csv-parser": "^3.0.0",
     "d3": "^7.9.0",
     "esbuild-sass-plugin": "^3.3.1",
     "flexsearch": "^0.8.205",

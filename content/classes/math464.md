@@ -4,6 +4,7 @@ last-modified: 2025-11-18
 tags:
     - probability
     - cross-listed
+course: STAT 410
 ---
 
 # Statistics and Probability II (STAT410/MATH464)

@@ -1,5 +1,6 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
+import GPAWidget from "./quartz/components/GPAWidget"
 
 // components shared across all pages
 export const sharedPageComponents: SharedLayout = {
@@ -22,12 +23,16 @@ export const defaultContentPageLayout: PageLayout = {
       condition: (page) => page.fileData.slug !== "index",
     }),
     Component.ArticleTitle(),
+    
     Component.ContentMeta(),
     Component.TagList(),
+    GPAWidget(),
+    
   ],
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
+    
     Component.Flex({
       components: [
         {
@@ -52,6 +57,7 @@ export const defaultListPageLayout: PageLayout = {
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
+    
     Component.Flex({
       components: [
         {
