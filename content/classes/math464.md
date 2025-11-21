@@ -10,6 +10,8 @@ tags:
 
 ## Official Course Description
 
+hello
+
 Moment-generating functions, transformations of random variables, normal
 sampling theory, sufficiency, best estimators, maximum likelihood
 estimators, confidence intervals, most powerful tests, unbiased tests,
